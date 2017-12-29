@@ -31,21 +31,32 @@ class ofApp : public ofBaseApp{
 		double outputs[2];
 		ofSoundStream soundStream;
 
-		ofxDatGui* gui;
-		float attack, release, attack2, release2, resonance;
-		float mult;
+		vector<ofxDatGui*> guiPanels;
 
-		int trigger;
 		double amp;
 		maxiClock clock;
+		int counter = 0;
+		vector<vector<int> > rhythms;
+		vector<int> triggers;
 
+
+		int numVoices = 4;
 		vector<ofxMaxiOsc> oscillators;
 		vector<ofxMaxiFilter> filters;
-		vector<double> filterOutputs;
 		vector<maxiEnv> oscEnvs;
 		vector<maxiEnv> filterEnvs;
-		vector<double> oscFreqs;
-		vector<double> filterEnvDecays;
+
+		vector<float> oscEnvAttacks;
+		vector<float> oscEnvReleases;
+		vector<float> filterEnvAttacks;
+		vector<float> filterEnvReleases;
+		vector<float> cutoffs;
+		vector<float> resonances;
+		vector<float> multipliers;
+		vector<double> volumes;
+		//gui apparently only works with floats
+		vector<float> guiVolumes;
+		vector<double> voices;
 
 		int	bufferSize; // This is the audio buffersize
 		int	sampleRate;
