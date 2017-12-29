@@ -28,7 +28,6 @@ class ofApp : public ofBaseApp{
 		
 		void audioOut(float * output, int bufferSize, int nChannels);
 
-		double outputs[2];
 		ofSoundStream soundStream;
 
 		vector<ofxDatGui*> guiPanels;
@@ -43,9 +42,12 @@ class ofApp : public ofBaseApp{
 		int numVoices = 4;
 		vector<ofxMaxiOsc> oscillators;
 		vector<ofxMaxiFilter> filters;
+		//Amplitude envelopes for the oscillators
 		vector<maxiEnv> oscEnvs;
+		//Cutoff envelopes for the filters
 		vector<maxiEnv> filterEnvs;
 
+		//Parameters for each voice
 		vector<float> oscEnvAttacks;
 		vector<float> oscEnvReleases;
 		vector<float> filterEnvAttacks;
@@ -53,11 +55,12 @@ class ofApp : public ofBaseApp{
 		vector<float> cutoffs;
 		vector<float> resonances;
 		vector<float> multipliers;
-		vector<double> volumes;
-		//gui apparently only works with floats
-		vector<float> guiVolumes;
+		vector<float> exponents;
+		vector<float> volumes;
+
+		//The outputs of all voices
 		vector<double> voices;
 
-		int	bufferSize; // This is the audio buffersize
+		int	bufferSize;
 		int	sampleRate;
 };
