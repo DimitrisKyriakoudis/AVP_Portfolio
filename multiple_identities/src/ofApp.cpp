@@ -1,6 +1,7 @@
 #include "ofApp.h"
 
 bool isLogging = true;
+//int trigger = 0;
 //--------------------------------------------------------------
 void ofApp::setup() {
 	bufferSize = 512;
@@ -14,14 +15,14 @@ void ofApp::setup() {
 	clock.setTicksPerBeat(1);
 
 	synths.push_back(fmSynth());
-	synths[0].setAmpAttack(20);
+	/*synths[0].setAmpAttack(20);
 	synths[0].setAmpRelease(200);
 	synths[0].setAmpExp(1);
 
 	synths[0].setIndexAttack(20);
 	synths[0].setIndexRelease(200);
 	synths[0].setIndexExp(1);
-	synths[0].setMaxIndex(100);
+	synths[0].setMaxIndex(100);*/
 
 
 	ofSoundStreamSetup(2, 0, this, sampleRate, bufferSize, 4);
@@ -54,16 +55,22 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 		clock.ticker();
 
 		if (clock.tick) {
+			//trigger = 1;
 			synths[0].setTrigger(1);
 			cout << "Trigger!" << endl;
 		}
 		else {
+			//trigger = 0;
 			synths[0].setTrigger(0);
 		}
 
 		double outputSig = synths[0].play();
-		//if (isLogging)
-			//cout << outputSig << endl;
+
+
+		if (isLogging)
+			cout << outputSig << endl;
+
+
 		output[i*nChannels] = outputSig;
 		output[i*nChannels + 1] = outputSig;
 

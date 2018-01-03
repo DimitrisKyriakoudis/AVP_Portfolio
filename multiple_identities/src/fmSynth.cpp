@@ -8,13 +8,13 @@ fmSynth::fmSynth() {
 	carFreq = 100;
 	modRatio = 1;
 
-	ampAttack = 20;
+	ampAttack = 100;
 	ampRelease = 200;
 	ampExp = 2;
 
-	indxAttack = 20;
-	indxRelease = 200;
-	indxExp = 2;
+	modAttack = 20;
+	modRelease = 200;
+	modExp = 2;
 	maxIndex = 100;
 
 	ampEnv.setAttack(ampAttack);
@@ -22,32 +22,18 @@ fmSynth::fmSynth() {
 	ampEnv.setSustain(1);
 	ampEnv.setRelease(ampRelease);
 
-	modIndexEnv.setAttack(indxAttack);
-	modIndexEnv.setDecay(1);
-	modIndexEnv.setSustain(1);
-	modIndexEnv.setRelease(indxRelease);
-
-	cout << "amp attack: " << ampEnv.attack << endl;
-	cout << "mod attack: " << modIndexEnv.attack << endl;
-	
+	modEnv.setAttack(modAttack);
+	modEnv.setDecay(1);
+	modEnv.setSustain(1);
+	modEnv.setRelease(modRelease);
 }
 
 //--------------------------------------------------------------
 double fmSynth::play() {
-	//double ampEnvOut = ampEnv.adsr(1, trigger);// , ampExp);
-	//double modIndexEnvOut = maxIndex * pow(modIndexEnv.adsr(1, trigger), indxExp);
+	double modOut = mod.sinewave(100) * pow(modEnv.adsr(1, trigger), modExp)  * maxIndex;
+	output = car.sinewave(100 + modOut) * pow(ampEnv.adsr(1, trigger), ampExp) * amp;
 
-	/*double modOut = mod.sinewave(carFreq * modRatio) * modIndexEnvOut;
-	output = car.sinewave(carFreq + modOut) * ampEnvOut;
-	*/
-
-	/*double modOut = mod.sinewave(100) * maxIndex * pow(modIndexEnv.adsr(1, trigger), indxExp);
-	double outputSig = car.sinewave(100 + modOut) * pow(ampEnv.adsr(1, trigger), ampExp);
-*/
-
-	double outputSig = car.sinewave(440 + 500.0*mod.sinewave(480));
-
-	return outputSig * amp;
+	return output;
 }
 
 //--------------------------------------------------------------
@@ -64,16 +50,16 @@ void fmSynth::setAmp(double v) {
 }
 
 //--------------------------------------------------------------
-void fmSynth::setIndexAttack(double v) {
-	indxAttack = v;
-	modIndexEnv.setAttack(indxAttack);
+void fmSynth::setModAttack(double v) {
+	modAttack = v;
+	modEnv.setAttack(modAttack);
 }
-void fmSynth::setIndexRelease(double v) {
-	indxRelease = v;
-	modIndexEnv.setRelease(indxRelease);
+void fmSynth::setModRelease(double v) {
+	modRelease = v;
+	modEnv.setRelease(modRelease);
 }
-void fmSynth::setIndexExp(double v) {
-	indxExp = v;
+void fmSynth::setModExp(double v) {
+	modExp = v;
 }
 void fmSynth::setMaxIndex(double v) {
 	maxIndex = v;

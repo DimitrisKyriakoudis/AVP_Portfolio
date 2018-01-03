@@ -23,9 +23,9 @@ public:
 	void setAmpRelease(double);
 	void setAmpExp(double);
 
-	void setIndexAttack(double);
-	void setIndexRelease(double);
-	void setIndexExp(double);
+	void setModAttack(double);
+	void setModRelease(double);
+	void setModExp(double);
 	void setMaxIndex(double);
 
 private:
@@ -40,11 +40,11 @@ private:
 	double ampExp;
 	maxiEnv ampEnv;
 
-	double indxAttack;
-	double indxRelease;
-	double indxExp;
+	double modAttack;
+	double modRelease;
+	double modExp;
 	double maxIndex;
-	maxiEnv modIndexEnv;
+	maxiEnv modEnv;
 
 	double carFreq;
 	double modRatio;

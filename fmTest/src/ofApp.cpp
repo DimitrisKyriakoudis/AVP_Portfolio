@@ -8,7 +8,7 @@ void ofApp::setup(){
 
 
 	clock.setTempo(80);
-	clock.setTicksPerBeat(1);
+	clock.setTicksPerBeat(2);
 
 	ampEnv.setAttack(20);
 	ampEnv.setDecay(1);
@@ -45,17 +45,22 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
 		if (clock.tick) {
 			trigger = 1;
+
+			ampEnv.setAttack(ofRandom(8, 50));
+			ampEnv.setRelease(ofRandom(100, 350));
+
+			modEnv.setAttack(ofRandom(5, 20));
+			modEnv.setRelease(ofRandom(250, 350));
+			maxMod = ofRandom(50, 1000);
+
 			cout << "Trigger!" << endl;
 		}
 		else {
 			trigger = 0;
 		}
 
-		double modOut = mod.sinewave(100) * pow(modEnv.adsr(1, trigger) * maxMod, modExp);
+		double modOut = mod.sinewave(100) * pow(modEnv.adsr(1, trigger), modExp)  * maxMod;
 		double outputSig = car.sinewave(100 + modOut) * pow(ampEnv.adsr(1, trigger), ampExp);
-
-		
-		//double outputSig = car.sinewave(440);
 		
 		output[i*nChannels] = outputSig * 0.2;
 		output[i*nChannels + 1] = outputSig * 0.2;
